@@ -1,24 +1,35 @@
 const store = require("./store");
 
-function addChat(users) {
-	if (!users || users.length < 2) {
-		return Promise.reject(`Invalid amound of users: ${users.length}`);
+function addChat(name) {
+	if (!name) {
+		return Promise.reject(`The chat need a name`);
 	}
 
 	const newChat = {
-		users: users,
+		name,
 	};
 
 	return store.add(newChat);
 }
 
-async function listChats(userId) {
+function listChats() {
 	return new Promise((resolve, reject) => {
-		resolve(store.list(userId));
+		resolve(store.list());
+	});
+}
+
+function updateChat(name, newName) {
+	return new Promise((resolve, reject) => {
+		if (!name || !newName) {
+			return reject("There's not a name");
+		}
+
+		return resolve(store.update(name, newName));
 	});
 }
 
 module.exports = {
 	addChat,
 	listChats,
+	updateChat,
 };

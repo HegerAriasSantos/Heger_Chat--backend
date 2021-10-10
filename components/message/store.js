@@ -10,22 +10,13 @@ function getMessage(userId = null, messageId = null, chatId = null) {
 		if (userId !== null) {
 			filter["user"] = userId;
 		}
-		if (userId !== null) {
-			filter["_id"] = userId;
+		if (messageId !== null) {
+			filter["_id"] = messageId;
 		}
 		if (chatId !== null) {
-			filter["chat"] = chatId;
+			filter["chatId"] = chatId;
 		}
-		Model.find(filter)
-			.populate("User")
-			.populate("Chat")
-			.exec((error, populatedData) => {
-				if (error) {
-					reject(error);
-					return false;
-				}
-				resolve(populatedData);
-			});
+		resolve(Model.find(filter));
 	});
 }
 async function updateText(id, message) {
@@ -36,10 +27,8 @@ async function updateText(id, message) {
 	const newMessage = await foundMessage.save();
 	return newMessage;
 }
-async function deleteMessage(id) {
-	return Model.deleteOne({
-		_id: id,
-	});
+async function deleteMessage(_id) {
+	return Model.deleteOne({ _id });
 }
 
 module.exports = {

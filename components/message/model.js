@@ -16,8 +16,6 @@ const mySchema = new Schema({
 	name: String,
 	file: String,
 	date: Date,
-	read: Boolean,
-	derlivered: Boolean,
 });
 
 const model = mongoose.model("Message", mySchema);

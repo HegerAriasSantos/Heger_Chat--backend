@@ -52,9 +52,15 @@ function getUser(filterUser = null) {
 		return resolve(store.list(filterUser));
 	});
 }
+function updateUser(id, newUser) {
+	return new Promise(async (resolve, reject) => {
+		return resolve(store.list(filterUser));
+	});
+}
 
 module.exports = {
 	addUser,
 	getUser,
 	login,
+	updateUser,
 };

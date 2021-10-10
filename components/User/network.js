@@ -4,46 +4,33 @@ const response = require("../../network/response");
 const controller = require("./controller");
 const auth = require("../../middleware/auth");
 
-router.post("/register", async function (req, res) {
+router.post("/register", (req, res) => {
 	const { name, password } = req.body;
 	controller
 		.addUser(name, password)
 		.then(data => {
 			response.success(req, res, data, 200);
 		})
-		.catch(error => {
-			response.error(req, res, error, 500);
+		.catch(e => {
+			response.error(req, res, "Unexpecter error", 500);
 		});
 });
 
-router.post("/login", async (req, res) => {
+router.post("/login", (req, res) => {
 	const { name, password } = req.body;
 	controller
 		.login(name, password)
 		.then(data => {
 			response.success(req, res, data, 200);
 		})
-		.catch(error => {
-			response.error(req, res, error, 500);
+		.catch(e => {
+			response.error(req, res, "Unexpecter error", 500);
 		});
 });
 
-router.post("/home", auth, async (req, res) => {
+router.post("/auth", auth, async (req, res) => {
 	response.success(req, res, "Welcome", 200);
 });
-
-// ...
-
-// router.post("/", function (req, res) {
-// 	controller
-// 		.addUser(req.body.name)
-// 		.then(() => {
-// 			response.success(req, res, "Create suscessfully", 201);
-// 		})
-// 		.catch(e => {
-// 			response.error(req, res, "Unexpected Error", 500);
-// 		});
-// });
 
 router.get("/", function (req, res) {
 	const { name, userId } = req.body;
@@ -52,8 +39,8 @@ router.get("/", function (req, res) {
 		.then(data => {
 			response.success(req, res, data, 200);
 		})
-		.catch(error => {
-			response.error(req, res, error, 500);
+		.catch(e => {
+			response.error(req, res, "Unexpecter error", 500);
 		});
 });
 

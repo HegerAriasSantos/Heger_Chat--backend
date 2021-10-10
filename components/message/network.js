@@ -4,7 +4,7 @@ const response = require("../../network/response");
 const controller = require("./controller");
 const path = require("path");
 const multer = require("multer");
-
+const auth = require("../../middleware/auth");
 const storage = multer.diskStorage({
 	destination: "public/files",
 	filename: function (req, file, cb) {
@@ -13,28 +13,28 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage: storage });
-
 router.get("/", function (req, res) {
 	const filterUser = req.query.userId || null;
 	const filterId = req.query.messageId || null;
 	const filterChat = req.query.chatId || null;
 	controller
 		.getMessages(filterUser, filterId, filterChat)
-		.then(messageList => {
-			response.success(req, res, messageList, 200);
+		.then(data => {
+			response.success(req, res, data, 200);
 		})
 		.catch(e => {
 			response.error(req, res, "Unexpecter error", 500);
 		});
 });
-router.post("/", upload.single("file"), function (req, res) {
+router.post("/", auth, upload.single("file"), function (req, res) {
+	const { chatId, userId, message, file, name } = req.body;
 	controller
-		.addMessage(req.body.chatId, req.body.userId, req.body.message, req.file)
-		.then(() => {
-			response.success(req, res, "Enviado correctamente", 200);
+		.addMessage(chatId, userId, message, file, name)
+		.then(data => {
+			response.success(req, res, data, 200);
 		})
 		.catch(e => {
-			response.error(req, res, "Error inesperado", 500);
+			response.error(req, res, "Unexpecter error", 500);
 		});
 });
 router.patch("/:id", function (req, res) {
@@ -44,7 +44,7 @@ router.patch("/:id", function (req, res) {
 			response.success(req, res, data, 200);
 		})
 		.catch(e => {
-			response.error(req, res, "Error interno", 500);
+			response.error(req, res, "Unexpecter error", 500);
 		});
 });
 router.delete("/:id", function (req, res) {
@@ -54,7 +54,7 @@ router.delete("/:id", function (req, res) {
 			response.success(req, res, data, 200);
 		})
 		.catch(e => {
-			response.error(req, res, "Invalid data", 500);
+			response.error(req, res, "Unexpecter error", 500);
 		});
 });
 

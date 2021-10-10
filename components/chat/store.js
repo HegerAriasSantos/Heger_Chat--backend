@@ -5,27 +5,17 @@ function addChat(chat) {
 	return newChat.save();
 }
 
-function listChats(userId) {
-	return new Promise((resolve, reject) => {
-		let filter = {};
-		if (userId) {
-			filter = {
-				users: userId,
-			};
-		}
-		Model.find(filter)
-			.populate("users")
-			.exec((error, populated) => {
-				if (error) {
-					return reject(error);
-				}
-
-				return resolve(populated);
-			});
-	});
+function listChats() {
+	return Model.find();
+}
+function updateChat(name, newName) {
+	let foundChat = Model.findOne({ name });
+	foundChat.name = newName;
+	return foundChat.save();
 }
 
 module.exports = {
 	add: addChat,
 	list: listChats,
+	update: updateChat,
 };
