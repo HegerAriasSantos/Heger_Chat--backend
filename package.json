@@ -3,6 +3,9 @@
 	"version": "1.0.0",
 	"description": "Un chat",
 	"main": "server.js",
+	"scripts": {
+		"start": "node index.js"
+	},
 	"keywords": [
 		"js",
 		"chat",
