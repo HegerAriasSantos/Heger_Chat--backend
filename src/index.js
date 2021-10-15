@@ -11,7 +11,7 @@ db.connect(
 		"mongodb+srv://Admin:astrolopitecus@cluster0.ldqms.mongodb.net/Chat_2V?retryWrites=true&w=majority",
 );
 connect(serve);
-const { userJoin, userLeave, getRoomUsers } = require("./utils/Users");
+const { userJoin, userLeave, getRoomUsers } = require("./Utils/Users");
 app.set("port", process.env.PORT || 3080);
 
 app.use(
