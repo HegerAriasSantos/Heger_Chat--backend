@@ -5,12 +5,11 @@ const cors = require("cors");
 const router = require("./network/routes");
 const db = require("./db");
 require("dotenv").config({ path: ".env" });
-const port = 3080;
 const { socket, connect } = require("./socket");
 db.connect(process.env.DB_CONNECT);
 connect(serve);
 const { userJoin, userLeave, getRoomUsers } = require("./utils/Users");
-const { list, update } = require("./components/User/store");
+app.set("port", process.env.PORT || 3080);
 
 app.use(
 	express.json({
@@ -20,35 +19,35 @@ app.use(
 app.use(cors());
 
 router(app);
-serve.listen(port, function () {
-	console.log(`la aplicacion esta funcionado en http://localhost:${port}`);
+serve.listen(app.get("port"), function () {
+	// console.log(
+	// 	`la aplicacion esta funcionado en http://localhost:${app.get("port")}`,
+	// );
 });
 
-socket.io.on("connection", async socket => {
-	socket.on("joinRoom", async ({ name, room }) => {
-		const UserDB = await list(name);
+socket.io.on("connection", socket => {
+	socket.on("joinRoom", ({ name, room }) => {
+		const rooms = socket.rooms;
+		rooms.forEach(project => socket.leave(project));
 		const user = userJoin(socket.id, name, room);
-		console.log("estoy dentro");
 		socket.join(user.room);
+
+		console.log("estoy dentro de : ", socket.rooms);
+
 		let fullMessage = {
 			name: "Admin",
 			chatId: room,
 			message: `${user.name} has joined the chat`,
 		};
 
-		socket.broadcast.to(user.room).emit("sentMessage", fullMessage);
-
+		socket.to(user.room).emit("sentMessage", fullMessage);
 		socket.to(user.room).emit("roomUsers", {
 			room: user.room,
 			users: getRoomUsers(user.room),
 		});
-		if (!user.room in UserDB.Rooms) {
-			UserDB.Rooms = [...UserDB.Rooms, room];
-			await update(name, user.room, UserDB.Rooms);
-		}
 	});
 
-	socket.on("leaveRoom", () => {
+	socket.on("disconnecting ", () => {
 		console.log("out");
 		const user = userLeave(socket.id);
 		let fullMessage = {
@@ -56,6 +55,7 @@ socket.io.on("connection", async socket => {
 			chatId: user.room,
 			message: `${user.name} has left the chat`,
 		};
+
 		console.log("funciona");
 
 		if (user) {
@@ -67,6 +67,5 @@ socket.io.on("connection", async socket => {
 				users: getRoomUsers(user.room),
 			});
 		}
-		update(user.name, user.room);
 	});
 });
