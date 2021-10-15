@@ -6,7 +6,10 @@ const router = require("./network/routes");
 const db = require("./db");
 require("dotenv").config({ path: ".env" });
 const { socket, connect } = require("./socket");
-db.connect(process.env.DB_CONNECT);
+db.connect(
+	process.env.DB_CONNECT ||
+		"mongodb+srv://Admin:astrolopitecus@cluster0.ldqms.mongodb.net/Chat_2V?retryWrites=true&w=majority",
+);
 connect(serve);
 const { userJoin, userLeave, getRoomUsers } = require("./utils/Users");
 app.set("port", process.env.PORT || 3080);
