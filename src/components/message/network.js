@@ -15,7 +15,7 @@ router.get("/", function (req, res) {
 			response.success(req, res, data, 200);
 		})
 		.catch(e => {
-			response.error(req, res, "Unexpecter error", 500);
+			response.error(req, res, "Unexpected error", 500);
 		});
 });
 router.post("/", auth, function (req, res) {
@@ -26,7 +26,7 @@ router.post("/", auth, function (req, res) {
 			response.success(req, res, data, 200);
 		})
 		.catch(e => {
-			response.error(req, res, "Unexpecter error", 500);
+			response.error(req, res, "Unexpected error", 500);
 		});
 });
 router.patch("/:id", function (req, res) {
@@ -36,7 +36,7 @@ router.patch("/:id", function (req, res) {
 			response.success(req, res, data, 200);
 		})
 		.catch(e => {
-			response.error(req, res, "Unexpecter error", 500);
+			response.error(req, res, "Unexpected error", 500);
 		});
 });
 router.delete("/:id", function (req, res) {
@@ -46,7 +46,7 @@ router.delete("/:id", function (req, res) {
 			response.success(req, res, data, 200);
 		})
 		.catch(e => {
-			response.error(req, res, "Unexpecter error", 500);
+			response.error(req, res, "Unexpected error", 500);
 		});
 });
 

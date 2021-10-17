@@ -6,13 +6,10 @@ const router = require("./network/routes");
 const db = require("./db");
 require("dotenv").config({ path: ".env" });
 const { socket, connect } = require("./socket");
-db.connect(
-	process.env.DB_CONNECT ||
-		"mongodb+srv://Admin:astrolopitecus@cluster0.ldqms.mongodb.net/Chat_2V?retryWrites=true&w=majority",
-);
+db.connect(process.env.DB_CONNECT);
 connect(serve);
-const { userJoin, userLeave, getRoomUsers } = require("./Utils/Users");
-app.set("port", process.env.PORT || 3080);
+const { userJoin, getRoomUsers } = require("./Utils/Users");
+app.set("port", process.env.PORT);
 
 app.use(
 	express.json({
@@ -48,27 +45,5 @@ socket.io.on("connection", socket => {
 			room: user.room,
 			users: getRoomUsers(user.room),
 		});
-	});
-
-	socket.on("disconnecting ", () => {
-		console.log("out");
-		const user = userLeave(socket.id);
-		let fullMessage = {
-			name: "Admin",
-			chatId: user.room,
-			message: `${user.name} has left the chat`,
-		};
-
-		console.log("funciona");
-
-		if (user) {
-			socket.to(user.room).emit("sentMessage", fullMessage);
-
-			// Send users and room info
-			socket.to(user.room).emit("roomUsers", {
-				room: user.room,
-				users: getRoomUsers(user.room),
-			});
-		}
 	});
 });

@@ -20,13 +20,9 @@ function addUser(name, password) {
 			password: encryptedPassword,
 		});
 
-		const token = jwt.sign(
-			{ userId: user._id, name },
-			config.TOKEN_KEY || "Algo raro",
-			{
-				expiresIn: "2h",
-			},
-		);
+		const token = jwt.sign({ userId: user._id, name }, config.TOKEN_KEY, {
+			expiresIn: "2h",
+		});
 		user.token = token;
 		return resolve(user);
 	});
@@ -40,13 +36,9 @@ function login(name, password) {
 		const user = await store.list(name);
 
 		if (user && (await bcrypt.compare(password, user.password))) {
-			const token = jwt.sign(
-				{ user_id: user._id, name },
-				config.TOKEN_KEY || "Algo raro",
-				{
-					expiresIn: "2h",
-				},
-			);
+			const token = jwt.sign({ user_id: user._id, name }, config.TOKEN_KEY, {
+				expiresIn: "2h",
+			});
 			user.token = token;
 
 			resolve(user);

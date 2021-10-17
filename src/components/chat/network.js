@@ -5,6 +5,7 @@ const controller = require("./controller");
 const router = express.Router();
 
 router.get("/", function (req, res) {
+	const id = req.query.id;
 	controller
 		.listChats()
 		.then(data => {
