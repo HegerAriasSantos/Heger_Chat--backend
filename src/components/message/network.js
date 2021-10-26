@@ -19,9 +19,10 @@ router.get("/", function (req, res) {
 		});
 });
 router.post("/", auth, function (req, res) {
-	const { chatId, userId, message, file, name } = req.body;
+	const { chatId, userId, message, file, fileName, fileType, name } = req.body;
+	console.log(file);
 	controller
-		.addMessage(chatId, userId, message, file, name)
+		.addMessage(chatId, userId, message, file, name, fileName, fileType)
 		.then(data => {
 			response.success(req, res, data, 200);
 		})

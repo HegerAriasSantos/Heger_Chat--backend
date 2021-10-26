@@ -1,7 +1,7 @@
 const { socket } = require("../../socket");
 const store = require("./store");
 
-function addMessage(chatId, userId, message, file, name) {
+function addMessage(chatId, userId, message, file, name, fileName, fileType) {
 	return new Promise((resolve, reject) => {
 		if (!chatId || !userId || !message) {
 			console.error("Faltan datos");
@@ -15,8 +15,8 @@ function addMessage(chatId, userId, message, file, name) {
 			userId,
 			message,
 			file,
-			fileName: file.name,
-			fileType: file.type,
+			fileName,
+			fileType,
 			date: new Date(),
 		};
 
