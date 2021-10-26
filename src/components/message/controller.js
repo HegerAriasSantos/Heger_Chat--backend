@@ -8,18 +8,16 @@ function addMessage(chatId, userId, message, file, name) {
 			reject("Datos incorrectos");
 			return false;
 		}
-		let fileURL = "";
-		if (file) {
-			fileURL = "http://localhost:3080/app/files/" + file.filename;
-		}
 
 		let fullMessage = {
 			name,
 			chatId,
 			userId,
 			message,
+			file,
+			fileName: file.name,
+			fileType: file.type,
 			date: new Date(),
-			file: fileURL,
 		};
 
 		socket.io.to(chatId).emit("sentMessage", fullMessage);

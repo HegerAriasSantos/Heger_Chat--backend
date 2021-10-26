@@ -16,6 +16,8 @@ const mySchema = new Schema({
 	name: String,
 	file: String,
 	date: Date,
+	fileType: String,
+	fileName: String,
 });
 
 const model = mongoose.model("Message", mySchema);
