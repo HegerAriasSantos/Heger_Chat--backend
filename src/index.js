@@ -20,9 +20,9 @@ app.use(cors());
 
 router(app);
 serve.listen(app.get("port"), function () {
-	// console.log(
-	// 	`la aplicacion esta funcionado en http://localhost:${app.get("port")}`,
-	// );
+	console.log(
+		`la aplicacion esta funcionado en http://localhost:${app.get("port")}`,
+	);
 });
 
 socket.io.on("connection", socket => {

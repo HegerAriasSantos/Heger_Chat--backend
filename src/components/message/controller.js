@@ -3,7 +3,7 @@ const store = require("./store");
 
 function addMessage(chatId, userId, message, file, name, fileName, fileType) {
 	return new Promise((resolve, reject) => {
-		if (!chatId || !userId || !message) {
+		if (!chatId || !userId) {
 			console.error("Faltan datos");
 			reject("Datos incorrectos");
 			return false;
