@@ -21,6 +21,7 @@ function getMessage(
 		if (image !== null) {
 			filter["fileType"] = "image";
 			resolve(Model.find(filter));
+			return;
 		}
 		if (messageId !== null) {
 			filter["_id"] = messageId;
