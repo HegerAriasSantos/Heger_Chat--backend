@@ -19,6 +19,15 @@ function getMessage(userId = null, messageId = null, chatId = null) {
 		resolve(Model.find(filter));
 	});
 }
+function listImages(chatId = null) {
+	return new Promise((resolve, reject) => {
+		let filter = {};
+		filter["chatId"] = chatId;
+		filter["fileType"] = "image";
+		resolve(Model.find(filter));
+	});
+}
+
 async function updateText(id, message) {
 	const foundMessage = await Model.findById(id);
 	foundMessage.message = message;
@@ -36,4 +45,5 @@ module.exports = {
 	list: getMessage,
 	update: updateText,
 	delete: deleteMessage,
+	listImages,
 };

@@ -35,6 +35,16 @@ function getMessages(userId = null, messageId = null, chatId = null) {
 		resolve(messages);
 	});
 }
+function getImages(userId = null) {
+	return new Promise((resolve, reject) => {
+		const Images = store.listImages(chatId);
+		if (!Images) {
+			reject("No hay mensajes disponibles");
+			return false;
+		}
+		resolve(Images);
+	});
+}
 async function updateMessage(id, message) {
 	return new Promise(async (resolve, reject) => {
 		if (!id || !message) {

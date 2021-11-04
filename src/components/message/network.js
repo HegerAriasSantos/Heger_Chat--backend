@@ -18,6 +18,17 @@ router.get("/", function (req, res) {
 			response.error(req, res, "Unexpected error", 500);
 		});
 });
+router.get("/images", function (req, res) {
+	const filterChat = req.query.chatId || null;
+	controller
+		.getImages(filterChat)
+		.then(data => {
+			response.success(req, res, data, 200);
+		})
+		.catch(e => {
+			response.error(req, res, "Unexpected error", 500);
+		});
+});
 router.post("/", auth, function (req, res) {
 	const { chatId, userId, message, file, fileName, fileType, name } = req.body;
 	console.log(file);
