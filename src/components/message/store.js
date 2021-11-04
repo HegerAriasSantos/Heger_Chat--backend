@@ -21,9 +21,10 @@ function getMessage(userId = null, messageId = null, chatId = null) {
 }
 function listImages(chatId = null) {
 	return new Promise((resolve, reject) => {
-		let filter = {};
-		filter["chatId"] = chatId;
-		filter["fileType"] = "image";
+		let filter = {
+			chatId,
+			fileType: "image",
+		};
 		resolve(Model.find(filter));
 	});
 }
