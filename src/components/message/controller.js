@@ -25,9 +25,14 @@ function addMessage(chatId, userId, message, file, name, fileName, fileType) {
 		resolve(fullMessage);
 	});
 }
-function getMessages(userId = null, messageId = null, chatId = null) {
+function getMessages(
+	userId = null,
+	messageId = null,
+	chatId = null,
+	image = null,
+) {
 	return new Promise((resolve, reject) => {
-		const messages = store.list(userId, messageId, chatId);
+		const messages = store.list(userId, messageId, chatId, image);
 		if (!messages) {
 			reject("No hay mensajes disponibles");
 			return false;

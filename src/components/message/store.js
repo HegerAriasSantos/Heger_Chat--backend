@@ -4,18 +4,28 @@ function addMessage(message) {
 	const myMessage = new Model(message);
 	myMessage.save();
 }
-function getMessage(userId = null, messageId = null, chatId = null) {
+function getMessage(
+	userId = null,
+	messageId = null,
+	chatId = null,
+	image = null,
+) {
 	return new Promise((resolve, reject) => {
 		let filter = {};
 		if (userId !== null) {
 			filter["user"] = userId;
 		}
-		if (messageId !== null) {
-			filter["_id"] = messageId;
-		}
 		if (chatId !== null) {
 			filter["chatId"] = chatId;
 		}
+		if (image !== null) {
+			filter["fileType"] = "image";
+			resolve(Model.find(filter));
+		}
+		if (messageId !== null) {
+			filter["_id"] = messageId;
+		}
+
 		resolve(Model.find(filter));
 	});
 }
@@ -46,5 +56,4 @@ module.exports = {
 	list: getMessage,
 	update: updateText,
 	delete: deleteMessage,
-	listImages,
 };

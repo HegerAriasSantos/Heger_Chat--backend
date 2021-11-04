@@ -9,8 +9,9 @@ router.get("/", function (req, res) {
 	const filterUser = req.query.userId || null;
 	const filterId = req.query.messageId || null;
 	const filterChat = req.query.chatId || null;
+	const filterImages = req.query.fileType || null;
 	controller
-		.getMessages(filterUser, filterId, filterChat)
+		.getMessages(filterUser, filterId, filterChat, filterImages)
 		.then(data => {
 			response.success(req, res, data, 200);
 		})
@@ -18,17 +19,7 @@ router.get("/", function (req, res) {
 			response.error(req, res, "Unexpected error", 500);
 		});
 });
-router.get("/images", function (req, res) {
-	const filterChat = req.query.chatId || null;
-	controller
-		.getImages(filterChat)
-		.then(data => {
-			response.success(req, res, data, 200);
-		})
-		.catch(e => {
-			response.error(req, res, "Unexpected error", 500);
-		});
-});
+
 router.post("/", auth, function (req, res) {
 	const { chatId, userId, message, file, fileName, fileType, name } = req.body;
 	console.log(file);
