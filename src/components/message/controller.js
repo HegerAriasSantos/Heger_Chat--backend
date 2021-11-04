@@ -71,4 +71,5 @@ module.exports = {
 	getMessages,
 	updateMessage,
 	deleteMessage,
+	getImages,
 };
